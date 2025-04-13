@@ -1,0 +1,16 @@
+/target
+# dependencies
+front/node_modules
+
+# next.js
+front/.next/
+front/out/
+
+# production
+front/build
+
+# debug
+front/npm-debug.log*
+front/yarn-debug.log*
+front/yarn-error.log*
+front/.pnpm-debug.log*

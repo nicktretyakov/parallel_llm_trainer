@@ -1,0 +1,62 @@
+[package]
+name = "parallel_llm_trainer"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name <your.email@example.com>"]
+description = "A parallel training framework for Large Language Models"
+readme = "README.md"
+repository = "https://github.com/yourusername/parallel-llm-trainer"
+license = "MIT OR Apache-2.0"
+keywords = ["machine-learning", "llm", "parallel", "training"]
+categories = ["science", "concurrency"]
+
+[dependencies]
+# Core dependencies
+rayon = "1.8.0"       # For parallel iterators and data processing
+num_cpus = "1.16.0"   # To detect the number of CPUs
+thiserror = "1.0.50"  # For better error handling
+log = "0.4.20"        # Logging facade
+env_logger = "0.10.1" # Logger implementation
+
+# Numerical computation
+ndarray = { version = "0.15.6", features = [
+    "rayon",
+] } # N-dimensional arrays with parallel support
+rand = "0.8.5" # Random number generation
+rand_distr = "0.4.3" # Probability distributions
+
+# Serialization/deserialization
+serde = { version = "1.0.190", features = ["derive"] }
+serde_json = "1.0.108"                                 # JSON serialization
+
+# Optional dependencies for advanced features
+[dependencies.tokio]
+version = "1.33.0"
+features = ["full"]
+optional = true
+
+[dependencies.tch]
+version = "0.13.0"
+optional = true
+
+[features]
+default = []
+async = ["tokio"]
+torch = ["tch"]
+full = ["async", "torch"]
+
+[dev-dependencies]
+criterion = "0.5.1" # For benchmarking
+tempfile = "3.8.1"  # For temporary file handling in tests
+mockall = "0.11.4"  # For mocking in tests
+
+[profile.release]
+opt-level = 3     # Maximum optimization
+lto = "thin"      # Link-time optimization
+codegen-units = 1 # Maximize optimizations
+panic = "abort"   # Abort on panic for smaller binary size
+strip = true      # Strip symbols from binary
+
+[profile.dev]
+opt-level = 0 # No optimization for faster compilation
+debug = true  # Full debug info
